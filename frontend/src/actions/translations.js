@@ -12,6 +12,17 @@ export function fetchTranslations(lang, word) {
   }
 }
 
+export function fetchOneTranslation(id) {
+  return (dispatch) => {
+    dispatch({type: 'LOAD_TRANSLATIONS'});
+    let url = new URL('http://localhost:3000/translations');
+    url.search = new URLSearchParams({id});
+    fetch(url.toString())
+    .then(r => r.json())
+    .then((translation) => dispatch({type: 'ADD_ONE_TRANSLATION', newTranslation: translation}))
+  }
+}
+
 export function postTranslation(newTranslation) {
   return (dispatch) => {
     dispatch({type: 'LOAD_TRANSLATIONS'});
@@ -30,6 +41,6 @@ export function postTranslation(newTranslation) {
     }
     fetch('http://localhost:3000', postObj)
     .then(r => r.json())
-    .then(translation => dispatch({type: 'CREATE_TRANSLATION', newTranslation: translation}));
+    .then(translation => dispatch({type: 'ADD_ONE_TRANSLATION', newTranslation: translation}));
   }
 }

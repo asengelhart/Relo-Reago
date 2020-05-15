@@ -13,7 +13,12 @@ class App extends React.Component {
           <Route exact path='/' render={ <TranslationContainer />} />
           <Route path='/user' render={routerProps => <UserPage {...routerProps} />} />
           <Route path='/translation' 
-                 render={routerProps => <TranslationCard {...routerProps} translations={this.props.translations} />} 
+                 render={routerProps => {
+                 return (
+                  <TranslationPage {...routerProps} 
+                    translation={routerProps.id} 
+                  />)} 
+                }
           />
         </div>
       </Router>

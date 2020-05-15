@@ -12,7 +12,7 @@ const translationsReducer = (state = {translations: [], loading: false}, action)
         translations: action.translations,
         loading: false
       }
-    case 'CREATE_TRANSLATION':
+    case 'ADD_ONE_TRANSLATION':
       return {
         ...state,
         translations: [...state.translations, action.newTranslation],
@@ -22,3 +22,5 @@ const translationsReducer = (state = {translations: [], loading: false}, action)
       return state;
   }
 }
+
+export default translationsReducer;
