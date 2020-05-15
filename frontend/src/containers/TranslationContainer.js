@@ -1,0 +1,20 @@
+import React, { Component } from 'react';
+import TranslationSearch from '../components/TranslationSearch'
+import {connect} from 'react-redux';
+
+class TranslationContainer extends Component {
+  render() {
+    return (
+      <div>
+        <TranslationSearch />
+        <Translations translations={this.props.translations} />
+      </div>
+    )
+  }
+}
+
+const mapStateToProps = state => {
+  return {translations: state.translations}
+}
+
+export default connect(mapStateToProps)(TranslationContainer);
