@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 class TranslationContainer extends Component {
   render() {
     return (
-      <div>
+      <div className="container">
         <TranslationSearch />
         <Translations translations={this.props.translations} />
       </div>
