@@ -11,8 +11,8 @@ class App extends React.Component {
         <div>
           <MainNavBar />
           <Route exact path='/' render={ <TranslationContainer />} />
-          <Route path='/user' render={routerProps => <UserPage {...routerProps} />} />
-          <Route path='/translation' 
+          <Route path='/user/:id' render={routerProps => <UserPage {...routerProps} />} />
+          <Route path='/translations/:id' 
                  render={routerProps => {
                  return (
                   <TranslationPage {...routerProps} 
