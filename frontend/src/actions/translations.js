@@ -33,15 +33,13 @@ export function postTranslation(translation) {
     };
     let postObj = API.postObj(postBody);
     await API.fetchPost('translations', postObj, (newTranslation) => dispatch({type: 'ADD_ONE_TRANSLATION', newTranslation}));
+  }
 }
 
 export function changeTranslationVotes(translation, voteChange=0) {
   return (dispatch) => {
     dispatch({type: 'LOAD_TRANSLATIONS'});
     let postObj = changeVotesObj(translation, voteChange);
-    try {
-      let response = await fetch(API.path('translation').toString(), postObj);
-      if(!response)
-    }
+    await API.fetchPost('translations', postObj, (translation) => dispatch({type: 'UPDATE_TRANSLATION', translation}));
   }
 }
