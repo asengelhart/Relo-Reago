@@ -23,7 +23,7 @@ export function fetchOneTranslation(id) {
   }
 }
 
-export function postTranslation(translation) {
+export async function postTranslation(translation) {
   return async (dispatch) => {
     dispatch({type: 'LOAD_TRANSLATIONS'});
     let postBody = {
@@ -36,10 +36,10 @@ export function postTranslation(translation) {
   }
 }
 
-export function changeTranslationVotes(translation, voteChange=0) {
-  return (dispatch) => {
+export async function changeTranslationVotes(translation, voteChange=0) {
+  return async (dispatch) => {
     dispatch({type: 'LOAD_TRANSLATIONS'});
-    let postObj = changeVotesObj(translation, voteChange);
+    let postObj = API.changeVotesObj(translation, voteChange);
     await API.fetchPost('translations', postObj, (translation) => dispatch({type: 'UPDATE_TRANSLATION', translation}));
   }
 }

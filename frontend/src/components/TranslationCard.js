@@ -10,7 +10,7 @@ const TranslationCard = ({translation}) => {
 
   return (
     <Row>
-      <Col m={8} s={12}>
+      <Col s={12}>
         <Table>
           <thead>
             <tr>

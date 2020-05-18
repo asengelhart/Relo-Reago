@@ -1,4 +1,4 @@
-const translationsReducer = (state = {translations: [], loading: false, error: null}, action) => {
+const TranslationsReducer = (state = {translations: [], loading: false, error: null}, action) => {
   switch(action.type) {
     case 'LOAD_TRANSLATIONS':
       return {
@@ -43,4 +43,4 @@ const translationsReducer = (state = {translations: [], loading: false, error: n
   }
 }
 
-export default translationsReducer;
+export default TranslationsReducer;

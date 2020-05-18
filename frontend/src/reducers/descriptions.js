@@ -1,4 +1,4 @@
-const descriptionsReducer = (state={descriptions: [], loading: false}, action) => {
+const DescriptionsReducer = (state={descriptions: [], loading: false}, action) => {
   switch(action.type) {
     case 'LOAD_DESCRIPTION':
       return {
@@ -34,4 +34,4 @@ const descriptionsReducer = (state={descriptions: [], loading: false}, action) =
   }
 }
 
-export default descriptionsReducer;
+export default DescriptionsReducer;

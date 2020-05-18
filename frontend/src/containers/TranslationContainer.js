@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TranslationSearch from '../components/TranslationSearch'
+import Translations from './Translations';
 import {connect} from 'react-redux';
 
 class TranslationContainer extends Component {

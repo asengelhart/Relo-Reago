@@ -22,7 +22,7 @@ export default class API {
   }
 
   static changeVotesObj(originalObj, votesChange) {
-    postBody = JSON.stringify({
+    const postBody = JSON.stringify({
       ...originalObj,
       votes: originalObj.votes + votesChange
     });
@@ -37,7 +37,7 @@ export default class API {
     }
   }
 
-  static async fetchPost(endpoint, postObj, dispatchCallback) {
+  static async fetchPost(endpoint, postObj, dispatchCallback, errorHandler) {
     //Note that postObj should be the result of either postObj() or changeVotesObj()
     try {
       let response = await fetch(this.path(endpoint).toString(), postObj)
@@ -53,7 +53,7 @@ export default class API {
         dispatchCallback(newTranslation);
       }
     } catch(error) {
-      dispatch({type: 'ERROR_CAUGHT', error})
+      errorHandler(error);
     }
   }
 }
