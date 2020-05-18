@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_14_005832) do
+ActiveRecord::Schema.define(version: 2020_05_16_215732) do
 
   create_table "descriptions", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2020_05_14_005832) do
     t.text "content"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "votes"
     t.index ["translation_id"], name: "index_descriptions_on_translation_id"
     t.index ["user_id"], name: "index_descriptions_on_user_id"
   end
@@ -25,6 +26,9 @@ ActiveRecord::Schema.define(version: 2020_05_14_005832) do
   create_table "translations", force: :cascade do |t|
     t.string "english"
     t.string "esperanto"
+    t.integer "user_id"
+    t.integer "votes"
+    t.index ["user_id"], name: "index_translations_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -36,4 +40,5 @@ ActiveRecord::Schema.define(version: 2020_05_14_005832) do
 
   add_foreign_key "descriptions", "translations"
   add_foreign_key "descriptions", "users"
+  add_foreign_key "translations", "users"
 end
