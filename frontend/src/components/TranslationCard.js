@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Row, Col, Card, Table} from 'react-materialize';
+import {Row, Col, Table} from 'react-materialize';
 
 const TranslationCard = ({translation}) => {
   const cardActions = [<Link key={translation.id} to={`/translation/${translation.id}`}>See More</Link>];
@@ -26,6 +26,7 @@ const TranslationCard = ({translation}) => {
           </tbody>
         </Table>
       </Col>
+      {cardActions}
     </Row>
   )
 }

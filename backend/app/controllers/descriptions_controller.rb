@@ -10,7 +10,14 @@ class DescriptionsController < ApplicationController
       end
       if description.save
         render json: DescriptionSerializer(description).render_one()
+      else
+        render json: {message: "Could not update description / Ne eblis ĝisdatigi priskribon"}, status: :unprocessable_entity
       end
     end
+  end
+
+  def create
+    description = Description.new(description_params)
+    description.update(votes: 0)
   end
 end

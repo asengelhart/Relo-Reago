@@ -34,7 +34,8 @@ class TranslationSearch extends Component {
           name="lang"
           id="lang"
           onChange={this.handleChange}
-          >
+          value=""
+        >
           <option disabled value="">
             Language/Lingvo
           </option>
@@ -51,7 +52,7 @@ class TranslationSearch extends Component {
           onChange={this.handleChange}
           placeholder="Search for word/Serĉi vorton"
         />
-        <button className="btn" type="submit">Search/Serĉi</button>
+        <Button type="submit">Search/Serĉi</Button>
       </form>
     )
   }

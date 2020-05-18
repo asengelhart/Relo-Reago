@@ -38,6 +38,12 @@ const TranslationsReducer = (state = {translations: [], loading: false, error: n
         }
       }
 
+    case 'NO_CHANGE':
+      return {
+        ...state,
+        loading: false
+      }
+
     default:
       return state;
   }

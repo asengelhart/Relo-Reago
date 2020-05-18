@@ -29,6 +29,13 @@ const DescriptionsReducer = (state={descriptions: [], loading: false}, action) =
       } else {
         return state;
       }
+
+    case 'NO_CHANGE':
+      return {
+        ...state,
+        loading: false
+      }
+
     default:
       return state;
   }

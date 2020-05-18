@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Row, Col, Table, Button} from 'react-materialize';
 import TranslationCard from '../components/TranslationCard';
-import DescriptionCard from '../components/DescriptionCard'
+import DescriptionCard from '../components/DescriptionCard';
+import VoteRow from '../components/VoteRow';
 import {fetchOneTranslation, changeTranslationVotes} from '../actions/translations';
 import {changeDescriptionVotes} from '../actions/descriptions';
 
@@ -20,7 +20,7 @@ class TranslationPage extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchTranslation(this.props.id)
+    this.props.fetchTranslation(this.props.match.params.id)
     let translation = this.props.translations.find(item => item.id === this.props.translationId)
     this.setState({
       ...this.state,

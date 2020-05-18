@@ -1,15 +1,31 @@
 import addDiacritics from '../helpers/addDiacritics';
 import API from '../helpers/API';
 
-export function fetchTranslations(lang, word) {
+export function fetchTranslations({lang, word}) {
   return (dispatch) => {
     dispatch({type: 'LOAD_TRANSLATIONS'});
     let queryWord = addDiacritics(word.toLowerCase());
     let url = new URL('http://localhost:3000/translations');
-    url.search = new URLSearchParams({lang, queryWord});
+    url.search = new URLSearchParams({lang, word: queryWord});
     fetch(url.toString())
-    .then(r => r.json())
-    .then((translations) => dispatch({type: 'ADD_TRANSLATIONS', translations}))
+    .then(r => {
+      if(!r.ok) {Promise.reject(r.statusText)};
+      return r.json();
+    })
+    .then((translations) => {
+      if(translations && !translations.message) {
+        return dispatch({type: 'ADD_TRANSLATIONS', translations});
+      } else {
+        if(translations.message) {
+          alert(translations.message)
+        } 
+        return dispatch({type: 'ADD_TRANSLATIONS', translations: null})
+      }
+    })
+    .catch(err => {
+      alert(err.message);
+      return dispatch({type: 'NO_CHANGE'});
+    });
   }
 }
 
@@ -18,13 +34,31 @@ export function fetchOneTranslation(id) {
     dispatch({type: 'LOAD_TRANSLATIONS'});
     let url = API.queryPath('translations', {id})
     fetch(url.toString())
-    .then(r => r.json())
-    .then((translation) => dispatch({type: 'ADD_ONE_TRANSLATION', newTranslation: translation}))
+    .then(r => {
+      if(!r.ok) {Promise.reject(r.statusText)};
+      return r.json()
+    })
+    .then((translation) => {
+      if(translation.id) {
+        return dispatch({type: 'ADD_ONE_TRANSLATION', newTranslation: translation});
+      } else {
+        if(translation.message) {
+          alert(translation.message);
+        } else {
+          alert("Translation not found \nTraduko ne troviĝis");
+        }
+        return dispatch({type: 'NO_CHANGE'});
+      }
+    })
+    .catch(error => {
+      alert(error.message);
+      return dispatch({type: 'NO_CHANGE'})
+    });
   }
 }
 
-export async function postTranslation(translation) {
-  return async (dispatch) => {
+export function postTranslation(translation) {
+  return (dispatch) => {
     dispatch({type: 'LOAD_TRANSLATIONS'});
     let postBody = {
       ...translation,
@@ -32,14 +66,14 @@ export async function postTranslation(translation) {
       eo: addDiacritics(translation.eo.toLowerCase())
     };
     let postObj = API.postObj(postBody);
-    await API.fetchPost('translations', postObj, (newTranslation) => dispatch({type: 'ADD_ONE_TRANSLATION', newTranslation}));
+    API.fetchPost('translations', postObj, (newTranslation) => dispatch({type: 'ADD_ONE_TRANSLATION', newTranslation}));
   }
 }
 
-export async function changeTranslationVotes(translation, voteChange=0) {
-  return async (dispatch) => {
+export function changeTranslationVotes(translation, voteChange=0) {
+  return (dispatch) => {
     dispatch({type: 'LOAD_TRANSLATIONS'});
     let postObj = API.changeVotesObj(translation, voteChange);
-    await API.fetchPost('translations', postObj, (translation) => dispatch({type: 'UPDATE_TRANSLATION', translation}));
+    API.fetchPost('translations', postObj, (translation) => dispatch({type: 'UPDATE_TRANSLATION', translation}));
   }
 }

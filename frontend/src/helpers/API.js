@@ -37,23 +37,17 @@ export default class API {
     }
   }
 
-  static async fetchPost(endpoint, postObj, dispatchCallback, errorHandler) {
+  static fetchPost(endpoint, postObj, dispatchCallback, errorHandler) {
     //Note that postObj should be the result of either postObj() or changeVotesObj()
-    try {
-      let response = await fetch(this.path(endpoint).toString(), postObj)
-      if(!response.ok) {
-        let errorObj = await response.json();
-        if(errorObj.message) {
-          throw new Error(errorObj.message);
-        } else {
-          throw new Error(response.statusText);
-        }
+    fetch(this.path(endpoint).toString(), postObj)
+    .then(r => r.json())
+    .then(newObj => {dispatchCallback(newObj)})
+    .catch(error => {
+      if(errorHandler) {
+        errorHandler(error);
       } else {
-        const newTranslation = await response.json();
-        dispatchCallback(newTranslation);
+        alert(error.messsage)
       }
-    } catch(error) {
-      errorHandler(error);
-    }
+    });
   }
 }

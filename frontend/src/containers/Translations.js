@@ -4,9 +4,14 @@ import {connect} from 'react-redux';
 
 class Translations extends Component {
   renderTranslations = () => {
-    this.props.translations.map((translation) => {
-      return <TranslationCard key={translation.id} translation={translation} />
-    });
+    if(this.props.translations && this.props.translations.length > 0) {
+      debugger;
+      this.props.translations.map((translation) => {
+        return <TranslationCard key={translation.id} translation={translation} />
+      });
+    } else {
+      return <p>No translations found / Tradukoj ne troviĝis</p>
+    }
   }
 
   render() {
