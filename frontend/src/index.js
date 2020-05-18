@@ -10,20 +10,11 @@ import RootReducer from './reducers/root';
 // import * as serviceWorker from './serviceWorker';
 
 const store = createStore(RootReducer, applyMiddleware(thunk));
-const changeCol = (event) => {
-  if(event.currentTarget.classList.contains("grey")) {
-    event.currentTarget.classList.replace("grey", "teal")
-  } else {
-    event.currentTarget.classList.replace("teal", "grey")
-  }
-  debugger
-}
 
 render(
-  // <Provider store={store}>
-  //   <App />
-  // </Provider>,
-  <Button className="teal" onClick={changeCol} bleegablarg="Jimmy"><Icon>thumb_up</Icon></Button>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );
 
