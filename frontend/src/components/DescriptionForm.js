@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {Redirect} from 'react-router-dom';
 import {Row, Col, Textarea, Button} from 'react-materialize';
 import {postDescription} from '../actions/descriptions';
 
 class DescriptionForm extends Component {
-  state = {
-    user_id: this.props.user.id,
-    translation_id: this.props.translation.id,
-    content: ""
+  constructor(props) {
+    super(props)
+    debugger;
+    this.state = {
+      user_id: this.props.user.id,
+      translation_id: this.props.translation.id,
+      content: ""
+    }
   }
 
   handleChange = (event) => {
@@ -19,19 +24,23 @@ class DescriptionForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.submitDescription(state);
+    if(this.state.user_id) {
+      this.props.submitDescription(this.state);
+    } else {
+      alert("Please login. \nBonvolu ensaluti.")
+    }
   }
 
   render() {
     return (
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <Row>
             <Col s={12}>
               <Textarea
                 name="content"
                 id="content"
-                onChange={handleChange}
+                onChange={this.handleChange}
                 label={"Write description here / Priskribu ĉi tie"}
               />
             </Col>
@@ -48,7 +57,7 @@ class DescriptionForm extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {user: state.user.current_user}
+  return {user: state.user.currentUser}
 }
 
 const mapDispatchToProps = (dispatch) => {

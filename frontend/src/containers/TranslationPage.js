@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import TranslationCard from '../components/TranslationCard';
 import DescriptionCard from '../components/DescriptionCard';
+import DescriptionForm from '../components/DescriptionForm';
 import VoteRow from '../components/VoteRow';
 import {fetchOneTranslation, changeTranslationVotes} from '../actions/translations';
 import {changeDescriptionVotes} from '../actions/descriptions';
@@ -9,6 +10,7 @@ import {changeDescriptionVotes} from '../actions/descriptions';
 class TranslationPage extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props.match);
     this.state = {
       translation: null,
       descriptions: [],
@@ -20,14 +22,26 @@ class TranslationPage extends Component {
   }
 
   componentDidMount() {
+    debugger
     this.props.fetchTranslation(this.props.match.params.id)
-    let translation = this.props.translations.find(item => item.id === this.props.translationId)
-    this.setState({
-      ...this.state,
-      translation: translation,
-      descriptions: [...translation.descriptions]
-    });
   }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    //Since I had problems updating the state after calling fetchTranslation in compnentDidMount
+    let translation = nextProps.translations.find(item => item.id.toString() === nextProps.match.params.id);
+    debugger;
+    if(translation) {
+      let descriptions = translation.descriptions ? translation.descriptions : [];
+      return {
+        ...prevState,
+        translation,
+        descriptions
+      }
+    } else {
+      return prevState;
+    }
+  }
+  
 
   voteColors = (isOn) => {
     const color = isOn ? "teal" : "grey";
@@ -101,8 +115,8 @@ class TranslationPage extends Component {
   }
 
   renderDescriptions = () => {
-    if(this.descriptions && this.descriptions.length > 0) {
-      return this.descriptions.map(item => {
+    if(this.state.descriptions && this.state.descriptions.length > 0) {
+      return this.state.descriptions.map(item => {
         return (
           <DescriptionCard 
             description={item}
@@ -116,11 +130,22 @@ class TranslationPage extends Component {
     }
   }
 
+  renderDescriptionForm = () => {
+    if(this.props.user) {
+      console.log(this.props.user);
+    } else {
+      console.log("No user in state");
+    }
+    if(this.state.translation && this.props.user){
+      return <DescriptionForm translation={this.state.translation} user={this.props.user} />;
+    }
+  }
+
   renderTranslationVoteRow = () => {
-    if(this.state.user) {
+    if(this.state.translation && this.state.translation.user) {
       return (
         <VoteRow 
-          user={this.state.user}
+          user={this.state.translation.user}
           handleUpvote={() => {this.handleTranslationVote(1)}}
           handleDownvote={() => {this.handleTranslationVote(-1)}}
           upvoteColor={() => this.voteColors(this.state.translationUpvoted)}
@@ -131,20 +156,28 @@ class TranslationPage extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <TranslationCard translation={this.translation} />
+    console.log(this.props.user);
+    if(this.props.loading) {
+      return <p>Elŝutanta...</p>
+    } else {
+      return (
+        <div>
+        <TranslationCard translation={this.state.translation} />
         {this.renderTranslationVoteRow()}
+        {this.renderDescriptionForm()}
         {this.renderDescriptions()}
-      </div>
-    )
+        </div>
+      )
+    }
   }  
 }
 
 const mapStateToProps = state => {
   return {
-    translations: state.translations,
-    descriptions: state.descriptions
+    translations: state.translations.translations,
+    descriptions: state.descriptions.descriptions,
+    user: state.user.currentUser,
+    loading: state.translations.loading
   }
 }
 const mapDispatchToProps = dispatch => {
