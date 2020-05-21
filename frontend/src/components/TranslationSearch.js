@@ -1,39 +1,14 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import {Select, TextInput, Button} from 'react-materialize';
-import { fetchTranslations } from '../actions/translations';
 
 class TranslationSearch extends Component {
-  state = {
-    lang: '',
-    word: ''
-  }
-
-  handleChange = (event) => {
-    this.setState({
-      ...this.state,
-      [event.target.name]: event.target.value
-    })
-  }
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    if(this.state.lang === ''){
-      alert(`Please select a language. / Bonvolu elekti lingvon.`);
-    } else if(this.state.word === '') {
-      alert(`Please input a word to search. / Bonvolu enigi vorton por serĉi`)
-    } else {
-      this.props.queryTranslation(this.state);
-    }
-  }
-
   render() {
     return(
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.props.onSubmit}>
         <Select
           name="lang"
           id="lang"
-          onChange={this.handleChange}
+          onChange={this.props.onChange}
           value=""
         >
           <option disabled value="">
@@ -49,7 +24,7 @@ class TranslationSearch extends Component {
         <TextInput
           name="word"
           id="word"
-          onChange={this.handleChange}
+          onChange={this.props.onChange}
           placeholder="Search for word/Serĉi vorton"
         />
         <Button type="submit">Search/Serĉi</Button>
@@ -58,8 +33,5 @@ class TranslationSearch extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return { queryTranslation: translation => dispatch(fetchTranslations(translation)) }
-}
 
-export default connect(null, mapDispatchToProps)(TranslationSearch);
+export default TranslationSearch;

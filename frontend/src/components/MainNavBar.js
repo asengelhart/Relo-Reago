@@ -4,11 +4,17 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 
 const MainNavBar = (props) => {
+  const loginOrLogout = () =>{
+    if(!props.loggedIn) {
+      return <NavLink to='/login'>Login / Ensaluti</NavLink>
+    } else {
+      return <NavLink to='/logout'>Logout / Adiaŭi</NavLink>
+    }
+  }
+
   return (
     <Navbar>
-      <NavLink to='/login'>
-        Login / Ensaluti
-      </NavLink>
+      {loginOrLogout()}
       <NavLink to='/'>
         Dictionary / Vortaro
       </NavLink>

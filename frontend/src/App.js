@@ -1,12 +1,13 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import MainNavBar from './components/MainNavBar';
 import NewUser from './containers/NewUser';
 import Login from './containers/Login';
+import Logout from './components/Logout';
 import TranslationPage from './containers/TranslationPage';
 import TranslationContainer from './containers/TranslationContainer';
 import TranslationForm from './components/TranslationForm';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends React.Component {
@@ -14,8 +15,9 @@ class App extends React.Component {
     return (
       <Router>
         <div className="container">
-          <MainNavBar />
+          <MainNavBar loggedIn={this.props.loggedIn} />
           <Route exact path='/login' render={() => <Login />} />
+          <Route exact path='/logout' render={() => <Logout />} />
           <Route exact path='/new_user' render={() => <NewUser />} />
           <Route exact path="/translations/new" render={() => <TranslationForm />} />
           <Route path='/translations/:id' 
@@ -33,4 +35,8 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {loggedIn: !!state.user.currentUser}
+}
+
+export default connect(mapStateToProps)(App);

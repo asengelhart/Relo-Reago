@@ -15,6 +15,7 @@ export function fetchTranslations({lang, word}) {
     .then((translations) => {
       if(translations && !translations.message) {
         dispatch({type: 'ADD_TRANSLATIONS', translations});
+        return translations;
       } else {
         if(translations.message) {
           alert(translations.message)
@@ -44,7 +45,6 @@ export function fetchOneTranslation(id) {
         return translation;
       } else {
         if(translation.message) {
-          debugger;
           alert(translation.message);
         } else {
           alert("Translation not found \nTraduko ne troviĝis");
