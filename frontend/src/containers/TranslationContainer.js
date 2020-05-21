@@ -11,14 +11,14 @@ class TranslationContainer extends Component {
       <div>
         <TranslationSearch />
         <Translations translations={this.props.translations} />
-        <Route path='/translations/:id' 
+        {/* <Route path='/translations/:id' 
                  render={routerProps => {
                  return (
                   <TranslationPage {...routerProps} 
                     translation={routerProps.id} 
                   />)} 
                 }
-          />
+          /> */}
       </div>
     )
   }

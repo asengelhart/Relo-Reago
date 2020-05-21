@@ -7,24 +7,24 @@ export function fetchTranslations({lang, word}) {
     let queryWord = addDiacritics(word.toLowerCase());
     let url = new URL('http://localhost:3000/translations');
     url.search = new URLSearchParams({lang, word: queryWord});
-    fetch(url.toString())
+    return fetch(url.toString())
     .then(r => {
       if(!r.ok) {Promise.reject(r.statusText)};
       return r.json();
     })
     .then((translations) => {
       if(translations && !translations.message) {
-        return dispatch({type: 'ADD_TRANSLATIONS', translations});
+        dispatch({type: 'ADD_TRANSLATIONS', translations});
       } else {
         if(translations.message) {
           alert(translations.message)
         } 
-        return dispatch({type: 'ADD_TRANSLATIONS', translations: null})
+        dispatch({type: 'ADD_TRANSLATIONS', translations: null})
       }
     })
     .catch(err => {
       alert(err.message);
-      return dispatch({type: 'NO_CHANGE'});
+      dispatch({type: 'NO_CHANGE'});
     });
   }
 }
@@ -32,17 +32,19 @@ export function fetchTranslations({lang, word}) {
 export function fetchOneTranslation(id) {
   return (dispatch) => {
     dispatch({type: 'LOAD_TRANSLATIONS'});
-    let url = API.queryPath('translations', {id})
-    fetch(url.toString())
+    let url = API.path(`translations/${id}`);
+    return fetch(url.toString())
     .then(r => {
       if(!r.ok) {Promise.reject(r.statusText)};
       return r.json()
     })
     .then((translation) => {
       if(translation.id) {
-        return dispatch({type: 'ADD_ONE_TRANSLATION', newTranslation: translation});
+        dispatch({type: 'ADD_ONE_TRANSLATION', newTranslation: translation});
+        return translation;
       } else {
         if(translation.message) {
+          debugger;
           alert(translation.message);
         } else {
           alert("Translation not found \nTraduko ne troviĝis");
@@ -51,8 +53,9 @@ export function fetchOneTranslation(id) {
       }
     })
     .catch(error => {
+      console.log(error)
       alert(error.message);
-      return dispatch({type: 'NO_CHANGE'})
+      dispatch({type: 'NO_CHANGE'})
     });
   }
 }
@@ -74,6 +77,9 @@ export function changeTranslationVotes(translation, voteChange=0) {
   return (dispatch) => {
     dispatch({type: 'LOAD_TRANSLATIONS'});
     let postObj = API.changeVotesObj(translation, voteChange);
-    API.fetchPost('translations', postObj, (translation) => dispatch({type: 'UPDATE_TRANSLATION', translation}));
+    let url = API.path(`translations/${translation.id}`);
+    fetch(url, postObj)
+    .then(r => r.json())
+    .then(translation => dispatch({type: 'UPDATE_TRANSLATION', translation}))
   }
 }

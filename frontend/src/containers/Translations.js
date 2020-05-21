@@ -5,8 +5,8 @@ import {connect} from 'react-redux';
 class Translations extends Component {
   renderTranslations = () => {
     if(this.props.translations && this.props.translations.length > 0) {
-      debugger;
-      this.props.translations.map((translation) => {
+      console.log(this.props.translations);
+      return this.props.translations.map((translation) => {
         return <TranslationCard key={translation.id} translation={translation} />
       });
     } else {

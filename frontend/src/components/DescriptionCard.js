@@ -9,6 +9,7 @@ const DescriptionCard = (props) => {
         <p>{props.description.content}</p>
         <VoteRow 
           user={props.description.user}
+          votes={props.description.votes}
           handleUpvote={props.handleUpvote}
           handleDownvote={props.handleDownvote}
           upvoteColor={props.upvoteColor}

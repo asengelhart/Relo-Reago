@@ -14,9 +14,9 @@ class UserForm extends Component {
     });
   }
 
-  handleSubmit = (event, user) => {
+  handleSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(user);
+    this.props.onSubmit(this.state);
   }
 
   render() {

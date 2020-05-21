@@ -12,7 +12,7 @@ const DescriptionsReducer = (state={descriptions: [], loading: false}, action) =
         loading: false
       }
     case 'UPDATE_DESCRIPTION':
-      const idx = state.descriptions.findIndex(description => description.id === action.descripition.id);
+      const idx = state.descriptions.findIndex(description => description.id === action.description.id);
       const newDescriptions = [...state.descriptions.slice(0,idx), action.description, ...state.descriptions.slice(idx + 1)];
       return {
         ...state,
@@ -21,14 +21,19 @@ const DescriptionsReducer = (state={descriptions: [], loading: false}, action) =
       }
 
     case 'ADD_ONE_TRANSLATION':
-      if(action.translation.descriptions && action.translation.descriptions.length > 0) {
+      if(action.newTranslation) {
+        if(action.newTranslation.descriptions && action.newTranslation.descriptions.length > 0) {
         return {
           ...state,
-          descriptions: action.translation.descriptions
+          descriptions: [...action.newTranslation.descriptions]
         }
       } else {
         return state;
       }
+    } else {
+      return state;
+    }
+
 
     case 'NO_CHANGE':
       return {

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  post 'login', to: 'sessions#create'
-  get 'current_user', to: 'sessions#show'
-  get 'logout', to: 'sessions#destroy'
+  post '/login', to: 'sessions#create'
+  get '/current_user', to: 'sessions#show'
+  get '/logout', to: 'sessions#destroy'
   resources :descriptions
   resources :translations
   resources :users

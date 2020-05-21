@@ -22,25 +22,39 @@ class TranslationPage extends Component {
   }
 
   componentDidMount() {
-    debugger
     this.props.fetchTranslation(this.props.match.params.id)
+    .then(translation => {
+      if(translation) {
+        let descriptions;
+        if(translation.descriptions && translation.descriptions.length > 0) {
+          descriptions = [...translation.descriptions];
+        } else {
+          descriptions = [];
+        }
+        this.setState({
+          ...this.state,
+          translation,
+          descriptions
+        });
+      }
+    });
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    //Since I had problems updating the state after calling fetchTranslation in compnentDidMount
-    let translation = nextProps.translations.find(item => item.id.toString() === nextProps.match.params.id);
-    debugger;
-    if(translation) {
-      let descriptions = translation.descriptions ? translation.descriptions : [];
-      return {
-        ...prevState,
-        translation,
-        descriptions
-      }
-    } else {
-      return prevState;
-    }
-  }
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   //Since I had problems updating the state after calling fetchTranslation in compnentDidMount
+  //   let translation = nextProps.translations.find(item => item.id.toString() === nextProps.match.params.id);
+  //   debugger;
+  //   if(translation) {
+  //     let descriptions = translation.descriptions ? translation.descriptions : [];
+  //     return {
+  //       ...prevState,
+  //       translation,
+  //       descriptions
+  //     }
+  //   } else {
+  //     return prevState;
+  //   }
+  // }
   
 
   voteColors = (isOn) => {
@@ -73,9 +87,10 @@ class TranslationPage extends Component {
   handleDescriptionVote = (descriptionId, voteChange) => {
     const description = this.state.descriptions.find(desc => desc.id = descriptionId);
     let newVoteChange = 0;
-    const upvotedIdx = this.state.upvotedDescriptions.findIndex(item => item === description);
-    const downvotedIdx = this.state.downvotedDescriptions.findIndex(item => item === description);
-    if(voteChange > 0 && downvotedIdx !== -1) {
+    const upvotedIdx = this.state.upvotedDescriptions.findIndex(item => item.id === description.id);
+    const downvotedIdx = this.state.downvotedDescriptions.findIndex(item => item.id === description.id);
+    debugger;
+    if(voteChange > 0 && downvotedIdx === -1) {
       if(upvotedIdx === -1) {
         newVoteChange = 1;
         this.setState({
@@ -92,7 +107,7 @@ class TranslationPage extends Component {
           ]
         })
       }
-    } else if(voteChange < 0 && upvotedIdx !== -1) {
+    } else if(voteChange < 0 && upvotedIdx === -1) {
       if(downvotedIdx === -1) {
         newVoteChange = -1;
         this.setState({
@@ -111,7 +126,19 @@ class TranslationPage extends Component {
       }
     }
 
-    this.changeDescriptionVotes(description, newVoteChange);
+    this.props.changeDescriptionVotes(description, newVoteChange)
+    .then(description => {
+      let idx = this.state.descriptions.findIndex(item => item.id === description.id);
+      this.setState({
+        ...this.state,
+        descriptions: [
+          ...this.state.descriptions.slice(0, idx),
+          description,
+          ...this.state.descriptions.slice(idx + 1)
+        ]
+
+      })
+    });
   }
 
   renderDescriptions = () => {
@@ -122,8 +149,8 @@ class TranslationPage extends Component {
             description={item}
             handleUpvote={() => {this.handleDescriptionVote(item.id, 1)}}
             handleDownvote={() => {this.handleDescriptionVote(item.id, -1)}}
-            upvoteColor={() => this.voteColors(this.state.upvotedDescriptions.find(desc => desc === item))}
-            downvoteColor={() => this.voteColors(this.state.downvotedDescriptions.find(desc => desc === item))}
+            upvoteColor={this.voteColors(this.state.upvotedDescriptions.find(desc => desc.id === item.id))}
+            downvoteColor={this.voteColors(this.state.downvotedDescriptions.find(desc => desc.id === item.id))}
           />
         )
       });
@@ -148,8 +175,8 @@ class TranslationPage extends Component {
           user={this.state.translation.user}
           handleUpvote={() => {this.handleTranslationVote(1)}}
           handleDownvote={() => {this.handleTranslationVote(-1)}}
-          upvoteColor={() => this.voteColors(this.state.translationUpvoted)}
-          downvoteColor={() => this.voteColors(this.state.translationDownvoted)}
+          upvoteColor={(() => this.voteColors(this.state.translationUpvoted))()}
+          downvoteColor={(() => this.voteColors(this.state.translationDownvoted))()}
         />
       )
     }

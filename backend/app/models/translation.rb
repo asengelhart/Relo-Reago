@@ -6,6 +6,11 @@ class Translation < ApplicationRecord
   has_many :descriptions
 
   def self.get_start_by_lang(language, word)
-    self.where("? LIKE ?", language, "#{sanitize_sql_like(word)}%").limit(20)
+    if language == "eo"
+      column = "esperanto"
+    elsif language == "en"
+      column = "english"
+    end
+    self.where("#{column} LIKE ?", "#{sanitize_sql_like(word)}%").limit(20)
   end
 end

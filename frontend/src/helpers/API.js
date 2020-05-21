@@ -27,7 +27,7 @@ export default class API {
       votes: originalObj.votes + votesChange
     });
     return {
-      method: "POST",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
@@ -37,17 +37,9 @@ export default class API {
     }
   }
 
-  static fetchPost(endpoint, postObj, dispatchCallback, errorHandler) {
+  static fetchPost(endpoint, postObj) {
     //Note that postObj should be the result of either postObj() or changeVotesObj()
-    fetch(this.path(endpoint).toString(), postObj)
-    .then(r => r.json())
-    .then(newObj => {dispatchCallback(newObj)})
-    .catch(error => {
-      if(errorHandler) {
-        errorHandler(error);
-      } else {
-        alert(error.messsage)
-      }
-    });
+    return fetch(this.path(endpoint).toString(), postObj)
+    .then(r => r.json());
   }
 }

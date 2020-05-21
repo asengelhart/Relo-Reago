@@ -6,11 +6,11 @@ import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 const MainNavBar = (props) => {
   return (
     <Navbar>
-      <NavLink to='/user'>
-        Login
+      <NavLink to='/login'>
+        Login / Ensaluti
       </NavLink>
-      <NavLink to='/translations'>
-        Dictionary
+      <NavLink to='/'>
+        Dictionary / Vortaro
       </NavLink>
     </Navbar>
   )  

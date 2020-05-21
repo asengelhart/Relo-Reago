@@ -28,6 +28,7 @@ const TranslationsReducer = (state = {translations: [], loading: false, error: n
       }
         
     case 'ADD_ONE_TRANSLATION':
+      console.log(action.newTranslation);
       if(state.translations.find(item => item.id === action.newTranslation.id)) {
         return {...state, loading: false}
       } else {

@@ -1,34 +1,46 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {Row, Col, Table} from 'react-materialize';
 
-const TranslationCard = ({translation}) => {
-  const cardActions = [<Link key={translation.id} to={`/translation/${translation.id}`}>See More</Link>];
-  if(translation.user) {
-    cardActions.push(<span>User/Uzanto: <Link key={`${translation.id}-user`} to={`/user/${translation.user.id}`}>{translation.user.name}</Link></span>)
+class TranslationCard extends Component {
+
+  renderUserIfPresent = () => {
+    if(this.props.translation.user) {
+      return(<span>User/Uzanto: {this.props.translation.user.name}</span>)
+    }
   }
 
-  return (
-    <Row>
-      <Col s={12}>
-        <Table>
-          <thead>
-            <tr>
-              <th>English</th>
-              <th>Esperanto</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{translation.en}</td>
-              <td>{translation.eo}</td>
-            </tr>
-          </tbody>
-        </Table>
-      </Col>
-      {cardActions}
-    </Row>
-  )
+  render() {
+    if(!this.props.translation) return <div />
+    return (
+      <Row>
+        <Col s={12}>
+          <Table>
+            <thead>
+              <tr>
+                <th>English</th>
+                <th>Esperanto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{this.props.translation.english}</td>
+                <td>{this.props.translation.esperanto}</td>
+              </tr>
+            </tbody>
+          </Table>
+        </Col>
+        <Row>
+          <Col s={6}>
+            <Link key={this.props.translation.id} to={`/translations/${this.props.translation.id}`}>See More</Link>
+          </Col>
+          <Col s={6}>
+            {this.renderUserIfPresent()}
+          </Col>
+        </Row>
+      </Row>
+    )
+  }
 }
 
 export default TranslationCard;
