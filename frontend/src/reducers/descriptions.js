@@ -9,10 +9,11 @@ const DescriptionsReducer = (state={descriptions: [], loading: false}, action) =
     case 'ADD_ONE_DESCRIPTION':
       return {
         ...state,
-        descriptions: [...state.descriptions, action.descripition],
+        descriptions: [...state.descriptions, action.description],
         loading: false
       }
     case 'UPDATE_DESCRIPTION':
+      debugger;
       const idx = state.descriptions.findIndex(description => description.id === action.description.id);
       const newDescriptions = [...state.descriptions.slice(0,idx), action.description, ...state.descriptions.slice(idx + 1)];
       return {
