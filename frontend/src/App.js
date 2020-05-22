@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {checkUser} from './actions/users';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import MainNavBar from './components/MainNavBar';
 import NewUser from './containers/NewUser';
@@ -11,6 +12,11 @@ import TranslationForm from './components/TranslationForm';
 import './App.css';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.props.checkUser();
+  }
+
   render() {
     return (
       <Router>
@@ -39,4 +45,7 @@ const mapStateToProps = state => {
   return {loggedIn: !!state.user.currentUser}
 }
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return { checkUser: () => dispatch(checkUser()) }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -25,6 +25,11 @@ export function login({name, password}) {
         dispatch({type: 'LOGOUT'});
       }
       return !!user.id;
+    })
+    .catch(err => {
+      dispatch({type: 'LOGOUT'});
+      console.log(err);
+      alert(err.message);
     });
   }
 }
@@ -32,25 +37,34 @@ export function login({name, password}) {
 export function logout() {
   return (dispatch) => {
     dispatch({type: 'LOAD_USER'});
-    fetch(API.path('logout'))
+    return fetch(API.path('logout'))
     .then(r => r.json())
     .then(() => dispatch({type: "LOGOUT"}))
   }
 }
 
-export function createUser(name, password) {
-  return submit_user(name, password, (dispatch, user) => {
-    if(user.id) {
-      dispatch({type: 'LOGIN', user});
-    } else {
-      if(user.message) {
-        alert(user.message);
+export function createUser({name, password}) {
+  return (dispatch) => {
+    dispatch({type: 'LOAD_USER'});
+    let postObj = API.postObj({name, password});
+    let path = API.path('users');
+    return fetch(path, postObj)
+    .then(r => r.json())
+    .then(user => {
+      if(user.id) {
+        dispatch({type: 'LOGIN', user});
       } else {
         alert("Could not create new user, try again later. \nNe eblis krei novan uzanton, provu denove alitempe.");
+        dispatch({type: 'LOGOUT'});
       }
-      dispatch({type: 'NO_CHANGE'});
-    }
-  })
+      return !!user.id;
+    })
+    .catch(err => {
+      dispatch({type: 'LOGOUT'});
+      console.log(err);
+      alert(err.message);
+    });
+  }
 }
 
 export function checkUser() {

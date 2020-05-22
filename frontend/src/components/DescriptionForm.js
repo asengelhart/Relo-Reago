@@ -6,7 +6,6 @@ import {postDescription} from '../actions/descriptions';
 class DescriptionForm extends Component {
   constructor(props) {
     super(props)
-    debugger;
     this.state = {
       user_id: this.props.user.id,
       translation_id: this.props.translation.id,
@@ -24,7 +23,10 @@ class DescriptionForm extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     if(this.state.user_id) {
-      this.props.submitDescription(this.state);
+      this.props.submitDescription(this.state)
+      .then(description => {
+        this.props.onSubmitSuccess(description);
+      });
     } else {
       alert("Please login. \nBonvolu ensaluti.")
     }
@@ -60,7 +62,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {submitDescription: (description) => {dispatch(postDescription(description))}}
+  return {submitDescription: (description) => dispatch(postDescription(description)) }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DescriptionForm);

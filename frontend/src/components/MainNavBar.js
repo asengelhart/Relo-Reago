@@ -18,6 +18,9 @@ const MainNavBar = (props) => {
       <NavLink to='/'>
         Dictionary / Vortaro
       </NavLink>
+      <NavLink to='/new_user'>
+        New User / Nova Uzanto
+      </NavLink>
     </Navbar>
   )  
 }

@@ -6,7 +6,7 @@ const VoteRow = (props) => {
   return (
     <Row>
       <Col s={6}>
-        <p>Submitted by / Submetita de <Link to={`/users/${props.user.id}`}>{props.user.name}</Link></p>
+        <p>Submitted by / Submetita de {props.user.name}</p>
       </Col>
       <Col s={2}>
         <Button onClick={props.handleUpvote} className={props.upvoteColor}><Icon>thumb_up</Icon></Button>

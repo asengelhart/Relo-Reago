@@ -40,23 +40,6 @@ class TranslationPage extends Component {
     });
   }
 
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   //Since I had problems updating the state after calling fetchTranslation in compnentDidMount
-  //   let translation = nextProps.translations.find(item => item.id.toString() === nextProps.match.params.id);
-  //   debugger;
-  //   if(translation) {
-  //     let descriptions = translation.descriptions ? translation.descriptions : [];
-  //     return {
-  //       ...prevState,
-  //       translation,
-  //       descriptions
-  //     }
-  //   } else {
-  //     return prevState;
-  //   }
-  // }
-  
-
   voteColors = (isOn) => {
     const color = isOn ? "teal" : "grey";
     return color;
@@ -85,11 +68,10 @@ class TranslationPage extends Component {
   }
 
   handleDescriptionVote = (descriptionId, voteChange) => {
-    const description = this.state.descriptions.find(desc => desc.id = descriptionId);
+    const description = this.state.descriptions.find(desc => desc.id === descriptionId);
     let newVoteChange = 0;
     const upvotedIdx = this.state.upvotedDescriptions.findIndex(item => item.id === description.id);
     const downvotedIdx = this.state.downvotedDescriptions.findIndex(item => item.id === description.id);
-    debugger;
     if(voteChange > 0 && downvotedIdx === -1) {
       if(upvotedIdx === -1) {
         newVoteChange = 1;
@@ -120,7 +102,7 @@ class TranslationPage extends Component {
           ...this.state,
           downvotedDescriptions: [
             ...this.state.downvotedDescriptions.slice(0, downvotedIdx),
-            ...this.state.downvotedDescriptions(downvotedIdx + 1)
+            ...this.state.downvotedDescriptions.slice(downvotedIdx + 1)
           ]
         });
       }
@@ -146,6 +128,7 @@ class TranslationPage extends Component {
       return this.state.descriptions.map(item => {
         return (
           <DescriptionCard 
+            key={item.id}
             description={item}
             handleUpvote={() => {this.handleDescriptionVote(item.id, 1)}}
             handleDownvote={() => {this.handleDescriptionVote(item.id, -1)}}
@@ -157,6 +140,13 @@ class TranslationPage extends Component {
     }
   }
 
+  onDescriptionPost = (description) => {
+    this.setState({
+      ...this.state,
+      descriptions: [...this.state.descriptions, description]
+    });
+  }
+
   renderDescriptionForm = () => {
     if(this.props.user) {
       console.log(this.props.user);
@@ -164,7 +154,11 @@ class TranslationPage extends Component {
       console.log("No user in state");
     }
     if(this.state.translation && this.props.user){
-      return <DescriptionForm translation={this.state.translation} user={this.props.user} />;
+      return <DescriptionForm 
+              translation={this.state.translation} 
+              user={this.props.user} 
+              onSubmitSuccess={this.onDescriptionPost}
+              />;
     }
   }
 

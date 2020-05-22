@@ -3,6 +3,7 @@ const DescriptionsReducer = (state={descriptions: [], loading: false}, action) =
     case 'LOAD_DESCRIPTION':
       return {
         ...state,
+        descriptions: [...state.descriptions],
         loading: true
       }
     case 'ADD_ONE_DESCRIPTION':

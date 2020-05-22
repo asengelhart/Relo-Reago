@@ -19,7 +19,7 @@ export function postDescription(description) {
     dispatch({type: 'LOAD_DESCRIPTIONS'});
     let postObj = API.postObj(description);
     let url = API.path('descriptions');
-    fetch(url, postObj)
+    return fetch(url, postObj)
     .then(r => {
       if(!r.ok) {return Promise.reject(r.statusText)}
       return r.json()
@@ -27,7 +27,8 @@ export function postDescription(description) {
     .then(description => {
       console.log(description)
       if(description && description.id) {
-        return dispatch({type: 'ADD_ONE_DESCRIPTION', description});
+        dispatch({type: 'ADD_ONE_DESCRIPTION', description});
+        return description
       } else {
         if(description.message) {
           alert(description.message)

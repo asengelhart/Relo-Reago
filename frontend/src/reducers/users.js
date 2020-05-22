@@ -3,6 +3,7 @@ const UsersReducer = (state={currentUser: null, loading: false}, action) => {
     case 'LOAD_USER':
       return {
         ...state,
+        currentUser: state.currentUser,
         loading: true
       }
     case 'LOGIN':

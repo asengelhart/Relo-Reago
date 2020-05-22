@@ -13,8 +13,6 @@ class Login extends Component {
   handleSubmit = (user) => {
     this.props.login(user)
     .then(isLoggedIn => {
-      console.log(isLoggedIn);
-      debugger;
       if(isLoggedIn) {
         this.setState({loggedIn: true})
       }
@@ -43,7 +41,6 @@ class Login extends Component {
   }
 }
 
-//remove
 const mapStateToProps = state => {
   return {loggedIn: !!state.user.currentUser}
 }
