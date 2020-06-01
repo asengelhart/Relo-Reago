@@ -1,6 +1,5 @@
 import React from 'react';
 import {Row, Col, Button, Icon} from 'react-materialize';
-import {Link} from 'react-router-dom';
 
 const VoteRow = (props) => {
   return (

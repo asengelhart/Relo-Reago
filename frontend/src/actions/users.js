@@ -1,15 +1,5 @@
 import API from '../helpers/API'
 
-function submit_user(name, password, cb) {
-  return (dispatch) => {
-    dispatch({type: 'LOAD_USER'});
-    let postObj = API.postObj({name, password});
-    console.log(API);
-    API.fetchPost('login', postObj)
-    .then(obj => {cb(dispatch, obj)})
-  }
-}
-
 export function login({name, password}) {
   return (dispatch) => {
     dispatch({type: 'LOAD_USER'});

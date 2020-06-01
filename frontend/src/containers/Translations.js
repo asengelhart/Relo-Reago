@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import TranslationCard from '../components/TranslationCard'
-import {connect} from 'react-redux';
+import TranslationCard from '../components/TranslationCard';
 
 class Translations extends Component {
   renderTranslations = () => {
