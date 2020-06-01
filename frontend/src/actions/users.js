@@ -61,8 +61,7 @@ export function checkUser() {
   return (dispatch) => {
     dispatch({type: 'LOAD_USER'});
     const url = API.path('current_user');
-    fetch(url)
-    .then(r => r.json())
+    API.fetchGet(url)
     .then(user => {
       if(user && user.id) {
         dispatch({type: 'LOGIN', user})

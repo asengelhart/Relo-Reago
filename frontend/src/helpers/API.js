@@ -21,6 +21,17 @@ export default class API {
     }
   }
 
+  static getObj() {
+    return {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      credentials: "include"
+    }
+  }
+
   static changeVotesObj(originalObj, votesChange) {
     const postBody = JSON.stringify({
       ...originalObj,
@@ -35,6 +46,11 @@ export default class API {
       credentials: "include",
       body: postBody
     }
+  }
+
+  static fetchGet(path) {
+    return fetch(path.toString(), this.getObj())
+    .then(r => r.json());
   }
 
   static fetchPost(endpoint, postObj) {
