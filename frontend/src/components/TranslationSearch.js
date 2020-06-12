@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Select, TextInput, Button} from 'react-materialize';
+import {Select, TextInput, Button, Checkbox} from 'react-materialize';
 
 class TranslationSearch extends Component {
   render() {
@@ -26,6 +26,12 @@ class TranslationSearch extends Component {
           id="word"
           onChange={this.props.onChange}
           placeholder="Search for word/Serĉi vorton"
+        />
+        <Checkbox 
+          name="exactMatch"
+          id="exactMatch"
+          label="Exact match / Preciza kongruo"
+          onChange={this.props.handleCheckbox}
         />
         <Button type="submit">Search/Serĉi</Button>
       </form>

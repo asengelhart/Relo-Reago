@@ -8,13 +8,21 @@ class TranslationContainer extends Component {
   state = {
     lang: '',
     word: '',
-    submitted: false
+    submitted: null,
+    exactMatch: false
   }
 
   handleChange = (event) => {
     this.setState({
       ...this.state,
       [event.target.name]: event.target.value
+    })
+  }
+
+  handleCheckbox = (event) => {
+    this.setState({
+      ...this.state,
+      exactMatch: event.target.checked
     })
   }
 
@@ -29,7 +37,7 @@ class TranslationContainer extends Component {
       .then(() => {
         this.setState({
           ...this.state,
-          submitted: true
+          submitted: this.state.word
         })
       })
     }
@@ -37,14 +45,28 @@ class TranslationContainer extends Component {
 
   renderTranslationsWhenSubmitted = () => {
     if(this.state.submitted) {
-      return <Translations translations={this.props.translations} />
+      let myTranslations;
+      if(this.state.exactMatch) {
+        let lang;
+        if(this.state.lang === "en") {
+          lang = "english"; 
+        } else if(this.state.lang === "eo") {
+          lang = "esperanto";
+        } else {
+          lang = null;
+        }
+        myTranslations = this.props.translations.filter(entry => entry[lang] === this.state.submitted);
+      } else {
+        myTranslations = this.props.translations;
+      }
+      return <Translations translations={myTranslations} />
     }
   }
 
   render() {
     return (
       <div>
-        <TranslationSearch onChange={this.handleChange} onSubmit={this.handleSubmit} />
+        <TranslationSearch onChange={this.handleChange} onSubmit={this.handleSubmit} handleCheckbox={this.handleCheckbox} />
         {this.renderTranslationsWhenSubmitted()}
       </div>
     )
