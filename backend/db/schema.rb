@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_16_215732) do
+ActiveRecord::Schema.define(version: 2020_06_18_075648) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "descriptions", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -31,6 +34,16 @@ ActiveRecord::Schema.define(version: 2020_05_16_215732) do
     t.index ["user_id"], name: "index_translations_on_user_id"
   end
 
+  create_table "user_description_votes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "description_id", null: false
+    t.boolean "upvoted"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["description_id"], name: "index_user_description_votes_on_description_id"
+    t.index ["user_id"], name: "index_user_description_votes_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "password_digest"
@@ -41,4 +54,6 @@ ActiveRecord::Schema.define(version: 2020_05_16_215732) do
   add_foreign_key "descriptions", "translations"
   add_foreign_key "descriptions", "users"
   add_foreign_key "translations", "users"
+  add_foreign_key "user_description_votes", "descriptions"
+  add_foreign_key "user_description_votes", "users"
 end
