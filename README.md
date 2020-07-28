@@ -1,7 +1,7 @@
 # Relo-Reago - Esperanto-angla vortaro / Esperanto-English dictionary
 
 ## About
-This is an English-Esperanto dictionary based off of the wordlist provided by <a href="http://reta-vortaro.de">Reta Vortaro.</a>.  Along with displaying basic definitions, this app can support user-generated comments attached to individual definitions, which can be up- or downvoted by other users.
+This is an English-Esperanto dictionary based off of the wordlist provided by <a href="http://reta-vortaro.de">Reta Vortaro.</a>, using a Rails backend and a React/Redux frontend.  Along with displaying basic definitions, this app can support user-generated comments attached to individual definitions, which can be up- or downvoted by other users.
 
 Future versions of this software will include auto-update functionality, enabling the app to automatically include updates posted by Reta Vortaro.
 
