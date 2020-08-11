@@ -11,12 +11,6 @@ open("db/structure.sql") do |f|
   sql_lines.each{|sql_line| Translation.connection.execute(sql_line) }
 end
 
-<<<<<<< HEAD
 # user = User.create!(name: "Johnny Mctestface", password: "password")
 # test_translation = Translation.create!(esperanto: "Gonzaga Universitato", english: "Gonzaga University", user: user)
 # test_description = Description.create!(translation: test_translation, user: user, content: "Katolika universitato en Spokane, Vaŝingtono")
-=======
-user = User.create!(name: "Johnny Mctestface", password: "password")
-test_translation = Translation.create!(esperanto: "Gonzaga Universitato", english: "Gonzaga University", user: user)
-test_description = Description.create!(translation: test_translation, user: user, content: "Katolika universitato en Spokane, Vaŝingtono")
->>>>>>> e8452eee06d68c5bcf14cb17acd97c705b315fbf

@@ -1,7 +1,6 @@
 class Description < ApplicationRecord
   belongs_to :user
   belongs_to :translation
-<<<<<<< HEAD
   has_many :user_description_votes
 
   def total_votes
@@ -31,6 +30,3 @@ class Description < ApplicationRecord
     end
   end
 end
-=======
-end
->>>>>>> e8452eee06d68c5bcf14cb17acd97c705b315fbf
