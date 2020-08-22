@@ -18,6 +18,10 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'jwt'
 gem 'dotenv-rails'
 
+# For pulling distribution files
+gem 'rubyzip'
+gem 'sqlite3'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
