@@ -8,9 +8,9 @@
 open("db/structure.sql") do |f|
   sql = f.read
   sql_lines = sql.split(/$/)
-  sql_lines.each{|sql_line| Translation.connection.execute(sql_line) }
+  (0...9000).each{|i| Translation.connection.execute(sql_lines[i]) }
 end
 
-# user = User.create!(name: "Johnny Mctestface", password: "password")
+user = User.create!(name: "Admin", password: ENV["ADMIN_PASSWORD"], is_admin: true)
 # test_translation = Translation.create!(esperanto: "Gonzaga Universitato", english: "Gonzaga University", user: user)
 # test_description = Description.create!(translation: test_translation, user: user, content: "Katolika universitato en Spokane, Vaŝingtono")
